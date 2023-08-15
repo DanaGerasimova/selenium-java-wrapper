@@ -53,7 +53,6 @@ public class Action {
                 return "command: \n\nclick on first element located " + elementLocator
                         + " in list located " + listLocator;
             }
-
         };
     }
 }
