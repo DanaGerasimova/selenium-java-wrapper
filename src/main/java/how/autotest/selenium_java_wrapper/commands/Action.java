@@ -31,6 +31,11 @@ public class Action {
                 driver.findElement(locator).sendKeys(Keys.ENTER);
                 return true;
             }
+
+            @Override
+            public String toString() {
+                return "command: \n\npress Enter into located " + locator;
+            }
         };
     }
 
@@ -41,6 +46,12 @@ public class Action {
             public Boolean apply(WebDriver driver) {
                 driver.findElements(listLocator).get(0).findElement(elementLocator).click();
                 return true;
+            }
+
+            @Override
+            public String toString() {
+                return "command: \n\nclick on first element located " + elementLocator
+                        + " in list located " + listLocator;
             }
         };
     }
