@@ -47,14 +47,10 @@ public class GoogleTest {
     @Test
     void findsSelenide() { // first examples of command and assertion that use SMARTER waiting
         driver.get("https://google.com/ncr");
-        driver.findElement(By.cssSelector("#L2AGLb")).click(); // delete!!!!
         assert_(That.isEmptyStringValue(By.cssSelector("[name=q]")));
 
         do_(Action.type(By.cssSelector("[name=q]"), "github selenide")); // <- SMARTER
         do_(Action.pressEnter(By.cssSelector("[name=q]")));
-
-        new WebDriverWait(driver, Duration.ofSeconds(4)).until(ExpectedConditions
-                .visibilityOfElementLocated(By.cssSelector("#rso>div")));
 
         assert_(That.countOfLocated(By.cssSelector("#rso>div"), 5)); // <- SMARTER
         assert_(That.hasText(By.cssSelector("#rso>div"),"selenide › selenide"));
