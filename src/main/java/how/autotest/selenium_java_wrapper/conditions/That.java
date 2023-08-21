@@ -7,7 +7,7 @@ import java.util.function.Function;
 
 public class That {
     public static Function<WebDriver, Boolean> countOfLocated(By locator, Integer expected) {
-        return new Function<WebDriver, Boolean>() {
+        return new Function<>() {
 
             int actual;
 
@@ -19,49 +19,52 @@ public class That {
 
             @Override
             public String toString() {
-                return "located " + locator + "\n expected count >= " + expected + "\nbut \n actual count = " + actual + "\n\n";
+                return "located " + locator + "\n expected count >= " + expected + "\nbut \n actual count = "
+                        + actual + "\n\n";
             }
         };
     }
 
-    public static Function<WebDriver, Boolean> isEmptyStringValue(By locator) {
-        return new Function<WebDriver, Boolean>() {
+    public static Function<WebDriver, Boolean> valueOfLocated(By locator, String expected) {
+        return new Function<>() {
 
             String actual;
 
             @Override
             public Boolean apply(WebDriver driver) {
                 actual = driver.findElement(locator).getAttribute("value");
-                return actual.isEmpty();
+                return actual.equals(expected);
             }
 
             @Override
             public String toString() {
-                return "located " + locator + "\n expected equal to empty string \nbut \n actual string = " + actual + "\n\n";
+                return "located " + locator + "\n expected value attribute = " + expected
+                        + "\nbut \n actual value attribute = " + actual + "\n\n";
             }
         };
     }
 
-    public static Function<WebDriver, Boolean> hasText(By locator, String expected) {
-        return new Function<WebDriver, Boolean>() {
+    public static Function<WebDriver, Boolean> partialTextOfLocated(By locator, String expected) {
+        return new Function<>() {
 
             String actual;
 
             @Override
             public Boolean apply(WebDriver driver) {
-                actual = driver.findElements(locator).get(0).getText();
+                actual = driver.findElement(locator).getText();
                 return actual.contains(expected);
             }
 
             @Override
             public String toString() {
-                return "located " + locator + "\n expected contains " + expected + "\nbut \n actual string = " + actual + "\n\n";
+                return "located " + locator + "\n expected partial text " + expected
+                        + "\nbut \n actual text = " + actual + "\n\n";
             }
         };
     }
 
-    public static Function<WebDriver, Boolean> hasTitle(String expected) {
-        return new Function<WebDriver, Boolean>() {
+    public static Function<WebDriver, Boolean> titleContains(String expected) {
+        return new Function<>() {
 
             String actual;
 
@@ -73,7 +76,8 @@ public class That {
 
             @Override
             public String toString() {
-                return "title \n expected contains " + expected + "\nbut \n actual title = " + actual + "\n\n";
+                return "page \n expected title contains " + expected
+                        + "\nbut \n actual title = " + actual + "\n\n";
             }
         };
     }

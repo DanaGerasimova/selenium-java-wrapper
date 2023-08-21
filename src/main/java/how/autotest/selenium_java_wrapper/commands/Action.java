@@ -8,7 +8,7 @@ import java.util.function.Function;
 
 public class Action {
     public static Function<WebDriver, Boolean> type(By locator, String text) {
-        return new Function<WebDriver, Boolean>() {
+        return new Function<>() {
 
             @Override
             public Boolean apply(WebDriver driver) {
@@ -24,7 +24,7 @@ public class Action {
     }
 
     public static Function<WebDriver, Boolean> pressEnter(By locator) {
-        return new Function<WebDriver, Boolean>() {
+        return new Function<>() {
 
             @Override
             public Boolean apply(WebDriver driver) {
@@ -39,19 +39,18 @@ public class Action {
         };
     }
 
-    public static Function<WebDriver, Boolean> clickOnItemHeader(By listLocator, By elementLocator) {
-        return new Function<WebDriver, Boolean>() {
+    public static Function<WebDriver, Boolean> click(By locator) {
+        return new Function<>() {
 
             @Override
             public Boolean apply(WebDriver driver) {
-                driver.findElements(listLocator).get(0).findElement(elementLocator).click();
+                driver.findElement(locator).click();
                 return true;
             }
 
             @Override
             public String toString() {
-                return "command: \n\nclick on first element located " + elementLocator
-                        + " in list located " + listLocator;
+                return "command: \n\nclick on element located " + locator;
             }
         };
     }

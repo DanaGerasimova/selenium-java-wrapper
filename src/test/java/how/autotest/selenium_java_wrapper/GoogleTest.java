@@ -45,18 +45,18 @@ public class GoogleTest {
     }
 
     @Test
-    void findsSelenide() { // first examples of command and assertion that use SMARTER waiting
+    void findsSelenide() {
         driver.get("https://google.com/ncr");
-        assert_(That.isEmptyStringValue(By.cssSelector("[name=q]")));
+        assert_(That.valueOfLocated(By.cssSelector("[name=q]"), ""));
 
-        do_(Action.type(By.cssSelector("[name=q]"), "github selenide")); // <- SMARTER
+        do_(Action.type(By.cssSelector("[name=q]"), "github selenide"));
         do_(Action.pressEnter(By.cssSelector("[name=q]")));
 
-        assert_(That.countOfLocated(By.cssSelector("#rso>div"), 5)); // <- SMARTER
-        assert_(That.hasText(By.cssSelector("#rso>div"),"selenide › selenide"));
+        assert_(That.countOfLocated(By.cssSelector("#rso>div"), 5));
+        assert_(That.partialTextOfLocated(By.cssSelector("#rso>div:nth-of-type(1)"),"selenide › selenide"));
 
-        do_(Action.clickOnItemHeader(By.cssSelector("#rso>div"), By.cssSelector("h3")));
-        assert_(That.hasTitle("GitHub - selenide/selenide"));
+        do_(Action.click(By.cssSelector("#rso>div:nth-of-type(1) h3")));
+        assert_(That.titleContains("GitHub - selenide/selenide"));
     }
 
     @Test
