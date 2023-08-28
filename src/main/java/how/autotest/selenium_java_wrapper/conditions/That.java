@@ -19,8 +19,9 @@ public class That {
 
             @Override
             public String toString() {
-                return "located " + locator + "\n expected count >= " + expected + "\nbut \n actual count = "
-                        + actual + "\n\n";
+                return "located " + locator
+                        + "\n expected count >= " + expected
+                        + "\nbut \n actual count = " + actual + "\n\n";
             }
         };
     }
@@ -38,7 +39,8 @@ public class That {
 
             @Override
             public String toString() {
-                return "located " + locator + "\n expected value attribute = " + expected
+                return "located " + locator
+                        + "\n expected value attribute = " + expected
                         + "\nbut \n actual value attribute = " + actual + "\n\n";
             }
         };
@@ -57,7 +59,8 @@ public class That {
 
             @Override
             public String toString() {
-                return "located " + locator + "\n expected partial text " + expected
+                return "located " + locator
+                        + "\n expected partial text " + expected
                         + "\nbut \n actual text = " + actual + "\n\n";
             }
         };

@@ -4,11 +4,12 @@ import com.google.common.collect.ImmutableList;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.MoveTargetOutOfBoundsException;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import org.apache.commons.io.FileUtils;
 
-import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.time.Duration;
+import java.util.Optional;
 import java.util.UUID;
 
 public class VerboseWebDriverWait extends WebDriverWait {
@@ -16,8 +17,7 @@ public class VerboseWebDriverWait extends WebDriverWait {
 
     public VerboseWebDriverWait(WebDriver driver, Duration timeout) {
         super(driver, timeout);
-        this.driver = driver; // we store to use it inside overridden timeoutException
-        // ... to take screenshot, store it, and add its path to message
+        this.driver = driver;
     }
 
     public static WebDriverWait withIgnoringFlakyTestsErrors(WebDriver driver, Duration timeout) {
@@ -33,20 +33,44 @@ public class VerboseWebDriverWait extends WebDriverWait {
 
     @Override
     protected RuntimeException timeoutException(String message, Throwable lastException) {
-        String path = "C:\\Users\\ASUS\\IdeaProjects\\selenium-java-wrapper\\screenshots\\"
-                + UUID.randomUUID() + ".png";
-        File file = ((TakesScreenshot)this.driver).getScreenshotAs(OutputType.FILE);
+        Path path = Path.of(System.getProperty("user.dir") + "/screenshots/");
+        byte[] file = ((TakesScreenshot)this.driver).getScreenshotAs(OutputType.BYTES);
+        Path tmpFilePath;
 
         try {
-            FileUtils.copyFile(file, new File(path));
+            tmpFilePath = Files.createTempFile(path, String.valueOf(UUID.randomUUID()), ".png");
+            Files.write(tmpFilePath, file);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
 
+        Optional<String> result = Optional.empty();
+        Optional<Path> screenshotResult = Optional.empty();
+
+        if (true){
+            result = Optional.of(lastException.getMessage());
+        }
+
+        if (true){
+            screenshotResult = Optional.of(tmpFilePath);
+        }
+
+        String finalResult;
+        String finalScreenshotResult;
+
+        if(result.isPresent()){
+            finalResult = result.get();
+        }else finalResult = "";
+
+        if(screenshotResult.isPresent()){
+            finalScreenshotResult = String.valueOf(screenshotResult.get());
+        }else finalScreenshotResult = "";
+
         var messageWithCauseAndScreenshot = message
                 + "\n"
-                + (lastException == null ? "" : "\nCaused by:\n" + lastException.getMessage())
-                + " with screenshot " + path;
+                + finalResult + "\n"
+                + " with screenshot " + "\n"
+                + finalScreenshotResult;
         return super.timeoutException(messageWithCauseAndScreenshot, lastException);
     }
 }
